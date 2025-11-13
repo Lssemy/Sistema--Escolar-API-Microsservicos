@@ -261,3 +261,24 @@ def criar_nota_route():
     data = request.get_json() or {}
     n = controller.criar_nota(data)
     return jsonify(n.to_dict()),201
+
+@bp.route('/atividades/<int:aid>', methods=['DELETE'])
+def deletar(aid):
+    """Deletar uma atividade existente
+    ---
+    parameters:
+      - name: aid
+        in: path
+        type: integer
+        required: true
+        description: ID da atividade
+    responses:
+      204:
+        description: Atividade deletada com sucesso
+      404:
+        description: Atividade não encontrada
+    """
+    sucesso = controller.deletar_atividade(aid)
+    if not sucesso:
+        return json_error('Atividade não encontrada', 404)
+    return '', 204
